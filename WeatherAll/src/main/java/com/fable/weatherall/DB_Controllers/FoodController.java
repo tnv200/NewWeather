@@ -20,6 +20,7 @@ public class FoodController {
     public List<Food> getfoods(
     		@PathVariable("state") String state,
     		@PathVariable("temperature") Double temperature) {
+		System.out.println(state+temperature);
         return service.getFoods(state, temperature);
     }
 }

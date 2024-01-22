@@ -71,8 +71,9 @@ fetchApiConfig()
             
             else {
 				
-				var weatherDescription = data.weather[0].description;
-				var weatherInfo = 'Weather in ' + selectedCity + ' - ' + weatherDescription;
+				var simpleDescription = data.weather[0].main;
+				var fullDescription = data.weather[0].description;
+				var weatherInfo = 'Weather in ' + selectedCity + ' - ' + fullDescription;
                 var temperature = (data.main.temp).toFixed(0);
                 var humidity = data.main.humidity;
                 var windSpeed = (data.wind.speed).toFixed(1);
@@ -96,7 +97,17 @@ fetchApiConfig()
                 weatherContainer3.style.display = 'flex';
                 weatherContainer4.style.display = 'flex';
                 
-                 fetch("/clothing/"+ encodeURIComponent(weatherDescription))
+                fetch("/getfoods/"+encodeURIComponent(searchInputState.value)+"/"+encodeURIComponent(temperature))
+            .then(response => response.json())
+            .then(data => {
+				
+				document.getElementById('veg').innerText = data[0].foodName;
+                document.getElementById('nonveg').textContent = data[1].foodName;
+                document.getElementById('liquid').textContent =data[2].foodName;
+				
+				})
+                
+                 fetch("/clothing/"+encodeURIComponent(simpleDescription))
             .then(response => response.json())
             .then(data => {
 				
@@ -105,6 +116,28 @@ fetchApiConfig()
                 document.getElementById('accessories').textContent =data[2].itemName;
                 document.getElementById('footwear').textContent = data[3].itemName;
                 document.getElementById('pullovers').textContent = data[4].itemName;
+				
+				})
+				
+				fetch("/outdoor/"+encodeURIComponent(simpleDescription))
+            .then(response => response.json())
+            .then(data => {
+				
+				document.getElementById('out_h.reco').innerText = data[0].activityname;
+                document.getElementById('out_reco').textContent = data[1].activityname;
+                document.getElementById('out_limit').textContent =data[2].activityname;
+                document.getElementById('out_notreco').textContent = data[3].activityname;
+				
+				})
+				
+				fetch("/travel/"+encodeURIComponent(simpleDescription))
+            .then(response => response.json())
+            .then(data => {
+				
+				document.getElementById('travel_h.reco').innerText = data[0].travelname;
+                document.getElementById('travel_reco').textContent = data[1].travelname;
+                document.getElementById('travel_limit').textContent =data[2].travelname;
+                document.getElementById('travel_notreco').textContent = data[3].travelname;
 				
 				})
                 }
