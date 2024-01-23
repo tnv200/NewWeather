@@ -371,7 +371,7 @@ option[value="user"] {
             if (role === 'user') {
                 window.location.href = '/user_dashboard';
             } else if (role === 'admin') {
-                window.location.href = '/html/index.html';
+                window.location.href = '/admin';
             }
         });
 
@@ -416,7 +416,7 @@ document.getElementById("forgotPasswordLink").addEventListener("click", function
                 role: role
             };
             
-            const endpoint = role === 'admin' ? 'admin/authenticate' : '/login';
+            const endpoint = role === 'admin' ? '/admin/authenticate' : '/login';
             
             fetch(endpoint, {
                 method: 'POST',
@@ -431,7 +431,7 @@ document.getElementById("forgotPasswordLink").addEventListener("click", function
                 alert(data.message);
                 if(data.status) {
                     // Redirect to dashboard or another page upon successful login
-                    const dashboardURL = role === 'admin' ? '/html/index.html' : '/user_dashboard';
+                    const dashboardURL = role === 'admin' ? '/admin' : '/user_dashboard';
                		window.location.href = dashboardURL;
                     
                 }
