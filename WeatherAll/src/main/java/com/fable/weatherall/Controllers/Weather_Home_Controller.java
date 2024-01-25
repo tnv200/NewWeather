@@ -27,6 +27,12 @@ public class Weather_Home_Controller {
         return "user";
     }
 	
+
+	@GetMapping("/user_profile")
+	public String displayUserProfile() {
+        return "user_profile";
+    }
+	
 	@GetMapping("/admin")
 	public String displayAdminDashboard() {
         return "admin";

@@ -21,6 +21,7 @@ import com.fable.weatherall.Responses.LoginResponse;
 import com.fable.weatherall.Services.AdminService;
 
 
+
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin
@@ -75,9 +76,7 @@ public class AdminController {
 		return ResponseEntity.ok(loginResponse);
     }
 
-	
-    
-    
+	  
     @GetMapping("/getUsers")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = adminService.getAllUsers();
