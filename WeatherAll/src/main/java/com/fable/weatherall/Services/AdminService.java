@@ -1,23 +1,94 @@
 package com.fable.weatherall.Services;
 
 import java.util.List;
+import java.util.Optional;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fable.weatherall.Admin_User_Entities.Admin;
 import com.fable.weatherall.Admin_User_Entities.User;
 import com.fable.weatherall.DTOs.AdminDTO;
 import com.fable.weatherall.DTOs.LoginDTO;
+import com.fable.weatherall.Repos.AdminRepo;
+import com.fable.weatherall.Repos.UserRepo;
 import com.fable.weatherall.Responses.LoginResponse;
+
+import jakarta.transaction.Transactional;
 
 
 @Service
-public interface AdminService {
-	Admin findAdminByUsername(String email);
-	void deleteUser(int userId);
-	List<User> getAllUsers();
-	void registerAdmin(AdminDTO adminDTO);
-	 boolean authenticateAdmin(Admin admin, String password);
-	 LoginResponse loginAdmin(LoginDTO loginDTO);
+public class AdminService {
+	
+//	private static final Logger log = LoggerFactory.getLogger(AdminServiceImpl.class);
+    @Autowired
+    private UserRepo userRepo;
+    @Autowired
+    private AdminRepo adminRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    
+    @Transactional
+    public void deleteUser(int userId) {
+    	 System.out.println("Deleting user with ID: " + userId);
+        userRepo.deleteById(userId);
+    }
+    
+
+    
+    public boolean authenticateAdmin(Admin admin, String password) {
+        return admin != null && passwordEncoder.matches(password, admin.getPassword());
+    }
+    
+    
+    public Admin findAdminByEmail(String email) {
+        return adminRepo.findByUsername(email).orElse(null);
+    }
+       
+    
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
+    
+    public void registerAdmin(AdminDTO adminDTO) {
+        Admin admin = new Admin();
+        admin.setUsername(adminDTO.getUsername());
+        admin.setEmail(adminDTO.getEmail());
+        admin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
+        admin.setConfirmpassword(passwordEncoder.encode(adminDTO.getConfirmpassword()));
+        adminRepo.save(admin);
+    }
+
+
+	
+	public LoginResponse loginAdmin(Admin admin) {
+		Admin admin1 = adminRepo.findByEmail(admin.getEmail());
+        if (admin1 != null) {
+            String password = admin.getPassword();
+            String encodedPassword = admin1.getPassword();
+            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            if (isPwdRight) {
+                Optional<Admin> adm = adminRepo.findOneByEmailAndPassword(admin.getEmail(), encodedPassword);
+                if (adm.isPresent()){
+                    return new LoginResponse("Login Success", true); // Fixed syntax
+                } else {
+                    return new LoginResponse("Login Failed", false);
+                }
+            } else {
+                return new LoginResponse("Password Not Match", false); // Fixed typo
+            }
+        } else {
+            return new LoginResponse("Email not exists", false);
+        }
+	}
+
 }
+
+
+

@@ -362,18 +362,7 @@ option[value="user"] {
     <!-- Bootstrap JavaScript Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            var role = document.getElementById('role').value;
-            // Redirect logic goes here
-            if (role === 'user') {
-                window.location.href = '/user_dashboard';
-            } else if (role === 'admin') {
-                window.location.href = '/admin';
-            }
-        });
+       
 
     /*popup */
     // Function to open password reset pop-up
@@ -431,7 +420,7 @@ document.getElementById("forgotPasswordLink").addEventListener("click", function
                 alert(data.message);
                 if(data.status) {
                     // Redirect to dashboard or another page upon successful login
-                    const dashboardURL = role === 'admin' ? '/admin' : '/user_dashboard';
+                    const dashboardURL = role === 'admin' ? '/admin_dashboard' : '/user_dashboard';
                		window.location.href = dashboardURL;
                     
                 }

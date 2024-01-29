@@ -1,10 +1,13 @@
 package com.fable.weatherall.Controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fable.weatherall.Admin_User_Entities.Admin;
 import com.fable.weatherall.Admin_User_Entities.User;
 import com.fable.weatherall.DTOs.AdminDTO;
 import com.fable.weatherall.DTOs.LoginDTO;
 import com.fable.weatherall.Responses.LoginResponse;
 import com.fable.weatherall.Services.AdminService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -59,7 +65,7 @@ public class AdminController {
 	}
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> loginAdmin(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> loginAdmin(@RequestBody Admin admin,HttpSession session) {
 //        String email = adminDTO.getEmail();
 //        String password = adminDTO.getPassword();
 //
@@ -72,7 +78,9 @@ public class AdminController {
 //                    .body("{\"status\": false, \"message\": \"Invalid credentials or Admin not found\"}");
 //        }
     	
-    	LoginResponse loginResponse = adminService.loginAdmin(loginDTO);
+    	session.setAttribute("adminEmail", admin.getEmail());
+    	
+    	LoginResponse loginResponse = adminService.loginAdmin(admin);
 		return ResponseEntity.ok(loginResponse);
     }
 
@@ -87,7 +95,20 @@ public class AdminController {
     @PostMapping("/registerAdmin")
     public ResponseEntity<String> registerAdmin(@RequestBody AdminDTO adminDTO) {
         adminService.registerAdmin(adminDTO);
+       
         return ResponseEntity.ok("Admin registered successfully");
     }
+//    
+//    @GetMapping("/sendData")
+//    public String userProfile(Model model)
+//    {
+//    	 
+//    	 
+//    	 model.addAttribute("admin", admin);
+//    	
+//    	return "admin_dashboard";
+//    }
+    
+  
 
 }
