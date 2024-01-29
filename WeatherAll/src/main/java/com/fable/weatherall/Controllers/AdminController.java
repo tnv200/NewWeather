@@ -79,6 +79,8 @@ public class AdminController {
 //        }
     	
     	session.setAttribute("adminEmail", admin.getEmail());
+     	
+//    	session.setAttribute("adminPass", admin.getPassword());
     	
     	LoginResponse loginResponse = adminService.loginAdmin(admin);
 		return ResponseEntity.ok(loginResponse);

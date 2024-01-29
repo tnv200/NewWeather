@@ -73,18 +73,41 @@ public class Weather_Home_Controller {
 	  
 	  @Autowired
 	  AdminRepo repo;
+	  
 	@GetMapping("/view_adminprofile")
     public String view_adminprofile(HttpSession session,Model model)
 	    {
 		
 			String email = (String) session.getAttribute("adminEmail");
+			String name = repo.findUsernameByEmail(email);
+			
+//			String pass = (String) session.getAttribute("adminPass");
+			
 	    	Admin admin = repo.findByEmail(email);
-//	    	System.out.println(email);
-//	    	System.out.println("admin + " + admin.getEmail());
+	    	
+	    	
+//	    	Admin admin2 = repo.findByPassword(pass);
+	    	
+	    	System.out.println(email);
+    	    System.out.println("admin : " + name);
+//	    	System.out.println("admin : " + admin2.getPassword());
+    	    
 	    	List<Admin> user = new ArrayList<>();
+	    	List<String> user1 = new ArrayList<>();
+//	    	List<Admin> user2 = new ArrayList<>();
+
+	    	
 	    	user.add(admin);
+	    	user1.add(name);
+//	    	user2.add(admin);
+
+	    	
 	    	model.addAttribute("user", user);
-	    	System.out.println("Raja");
+	    	model.addAttribute("user1", user1);
+//	    	model.addAttribute("user2", user2);
+
+
+	    	
 	    	return "/pages-profile";
 	    }
 	
