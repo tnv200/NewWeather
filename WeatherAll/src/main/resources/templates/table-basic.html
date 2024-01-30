@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -159,7 +158,7 @@
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="/admin_dashboard/html/pages-profile.html"
                                 id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                    src="/admin_dashboard/html/assets/images/big/OIP.jpg" alt="user" class="" /> <span
+                                    src="/admin_dashboard/assets/images/big/OIP.jpg" alt="user" class="" /> <span
                                     class="hidden-md-down">Admin profile &nbsp;</span> </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -185,14 +184,14 @@
                         <li> <a class="waves-effect waves-dark" href="/admin_dashboard/html/pages-profile.html" aria-expanded="false"><i
                                     class="fa fa-user-circle-o"></i><span class="hide-menu">Profile</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/admin_dashboard/html/table-basic.html" aria-expanded="false"><i
+                        <li> <a class="waves-effect waves-dark" href="/getUsers" aria-expanded="false"><i
                                     class="fa fa-table"></i><span class="hide-menu">Tables</span></a>
                         </li>
                         <!-- <li> <a class="waves-effect waves-dark" href="icon-fontawesome.html" aria-expanded="false"><i
                                     class="fa fa-smile-o"></i><span class="hide-menu">Icons</span></a>
                         </li> -->
-                        <li> <a class="waves-effect waves-dark" href="/admin_dashboard/html/map-google.html" aria-expanded="false"><i
-                                    class="fa fa-globe"></i><span class="hide-menu">Map</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/map-google" aria-expanded="false"><i
+                                    class="fa fa-globe"></i><span class="hide-menu">Open WeatherMap</span></a>
                         </li>
                         <!-- <li> <a class="waves-effect waves-dark" href="pages-blank.html" aria-expanded="false"><i
                                     class="fa fa-bookmark-o"></i><span class="hide-menu">Blank</span></a>
@@ -264,18 +263,14 @@
                         <div id="deleteUserModal" class="modal">
                             <!-- Modal content -->
                             <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <form id="deleteUserForm">
-                                    <label for="deleteUserId">UserID:</label>
-                                    <input type="text" id="deleteUserId" name="deleteUserId" required><br><br>
-                    
-                                    <!-- Other user details fields for deletion -->
-                                    <!-- ... -->
-                    
-                                    <!-- <input type="submit" value="Submit"> -->
-                                </form>
-                                <button id="confirmDeleteButton" class="btn btn-danger">Confirm Delete</button>
+                                    <span class="close">&times;</span>
+                                    <form th:action="@{/deleteUser}" th:method="post">
+                                      <label for="userId">User ID:</label>
+                                      <input type="text" id="userId" name="userId" required>
+                                      <button type="submit">Delete User</button>
+                                    </form>
                             </div>
+
                         </div>
                     </div>
                     
@@ -332,7 +327,15 @@
                                                 </tr>
                                             
                                         </tbody> -->
-                                        <tbody id="Userinsertion"></tbody>
+                                        <tbody id="Userinsertion">
+                                        
+                                               <tr th:each="user : ${users}">
+                                                    <td th:text="${user.userid}"></td>
+                                                    <td th:text="${user.username}"></td>
+                                                    <td th:text="${user.email}"></td>
+                                                </tr>
+                                        
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -349,7 +352,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2023 Adminwrap by <a href="#">weatherfable.com</a> </footer>
+            
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -389,102 +392,12 @@
     <!-- Your existing HTML content... -->
 
 <script>
- $(document).ready(function () {
-    // Function to show the Add User modal
-    $("#addUserButton").click(function () {
-        $("#addUserModal").css("display", "block");
+
+document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+        var userId = document.getElementById('deleteUserId').value;
+        window.location.href = /*[[ @{"/deleteUser/" + '{userId}'} ]]*/ "/deleteUser/" + userId;
     });
-
-    // Function to close the Add User modal
-    $(".close").click(function () {
-        $("#addUserModal").css("display", "none");
-    });
-
-    // Function to handle form submission in the Add User modal
-    $("#addUserForm").submit(function (e) {
-        e.preventDefault();
-
-        // Get values from the form
-        var userIdInput = $("#addUserId").val();
-        var username = $("#addUsername").val();
-        var email = $("#addEmail").val();
-
-        // Check if userId is a valid number
-        if (isNaN(userIdInput)) {
-            alert("Please enter a valid number for UserID.");
-            return;
-        }
-
-        // Parse userId as an integer
-        var userId = parseInt(userIdInput);
-
-        // Check for duplicate user
-        if (!isDuplicateUser(userId, username, email)) {
-            // Append a new row to the table with the user details
-            var newRow = "<tr><td>" + userId + "</td><td>" + username + "</td><td>" + email + "</td></tr>";
-            $("#Userinsertion").append(newRow);
-
-            // Store user data in local storage
-            var userData = JSON.parse(localStorage.getItem("userData")) || [];
-            userData.push({ userId: userId, username: username, email: email });
-            localStorage.setItem("userData", JSON.stringify(userData));
-
-            // Close the modal
-            $("#addUserModal").css("display", "none");
-        } else {
-            // Display an error message or handle the case where the user is not unique
-            alert("User with the same ID, username, or email already exists!");
-        }
-    });
-
-    // Function to show the Delete User modal
-    $("#deleteUserButton").click(function () {
-        $("#deleteUserModal").css("display", "block");
-    });
-
-    // Function to close the Delete User modal
-    $(".close").click(function () {
-        $("#deleteUserModal").css("display", "none");
-    });
-
-    // Function to handle confirm deletion in the Delete User modal
-    $("#confirmDeleteButton").click(function () {
-        // Add logic for confirming and deleting the user
-        // For now, just remove the selected row
-        var userIdToDelete = $("#deleteUserId").val();
-        $("#Userinsertion").find("td:contains(" + userIdToDelete + ")").closest("tr").remove();
-
-        // Remove user data from local storage
-        var userData = JSON.parse(localStorage.getItem("userData")) || [];
-        var updatedData = userData.filter(user => user.userId !== parseInt(userIdToDelete));
-        localStorage.setItem("userData", JSON.stringify(updatedData));
-
-        // Close the modal
-        $("#deleteUserModal").css("display", "none");
-    });
-
-    // Function to check if a user with the same ID, username, or email already exists
-    function isDuplicateUser(userId, username, email) {
-        var userData = JSON.parse(localStorage.getItem("userData")) || [];
-        return userData.some(user =>
-            user.userId === userId || user.username === username || user.email === email
-        );
-    }
-
-    // Function to synchronize table with local storage data
-    function syncTableWithData() {
-        var userData = JSON.parse(localStorage.getItem("userData")) || [];
-        userData.forEach(user => {
-            var newRow = "<tr><td>" + user.userId + "</td><td>" + user.username + "</td><td>" + user.email + "</td></tr>";
-            $("#Userinsertion").append(newRow);
-        });
-    }
-
-    // Synchronize table with local storage data on page load
-    syncTableWithData();
-});
-
-
+    
 
 </script>
 

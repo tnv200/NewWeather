@@ -8,15 +8,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fable.weatherall.Admin_User_Entities.Admin;
+import com.fable.weatherall.Admin_User_Entities.User;
 import com.fable.weatherall.Repos.AdminRepo;
+import com.fable.weatherall.Repos.UserRepo;
 import com.fable.weatherall.Services.AdminService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class Weather_Home_Controller {
+	
+	@Autowired
+	AdminRepo repo;
+	
+	@Autowired
+    private UserRepo userRepo;
 
 	@Autowired
     private AdminService adminService;
@@ -53,6 +64,11 @@ public class Weather_Home_Controller {
         return "admin_dashboard";
     }
 	
+	@GetMapping("/map-google")
+	public String displayMap() {
+        return "map-google";
+    }
+	
 	@GetMapping("/about")
 	public String displayAboutPage() {
         return "about";
@@ -65,14 +81,19 @@ public class Weather_Home_Controller {
 //	    }
 //	    
 	  
-	  @GetMapping("/pages-profile")
+	    @GetMapping("/pages-profile")
 	    public String adminprofile() {
-	    	System.out.println("Hi");
+		  
+//	    	System.out.println("Hi");
 	    	return "pages-profile";
 	    }
 	  
-	  @Autowired
-	  AdminRepo repo;
+//	    @GetMapping("/table-basic")
+//	    public String admin_tablebasic() {
+//	    	
+//	    	return "table-basic";
+//	    }
+	  
 	  
 	@GetMapping("/view_adminprofile")
     public String view_adminprofile(HttpSession session,Model model)
@@ -88,8 +109,8 @@ public class Weather_Home_Controller {
 	    	
 //	    	Admin admin2 = repo.findByPassword(pass);
 	    	
-	    	System.out.println(email);
-    	    System.out.println("admin : " + name);
+//	    	System.out.println(email);
+//    	    System.out.println("admin : " + name);
 //	    	System.out.println("admin : " + admin2.getPassword());
     	    
 	    	List<Admin> user = new ArrayList<>();
@@ -109,6 +130,22 @@ public class Weather_Home_Controller {
 
 	    	
 	    	return "/pages-profile";
+	    }
+	
+	@GetMapping("/getUsers")
+    public String getAllUsers(Model model) {
+        List<User> users = userRepo.findAll();
+        model.addAttribute("users", users);
+//        System.out.println("Table");
+        return "table-basic"; // Assuming "userTable" is the Thymeleaf template name
+    }
+	
+	    @PostMapping("/deleteUser")
+	    public String deleteUser(@RequestParam("userId") int userId) {
+	        //System.out.println("agfakasbdfpkbws");
+	    	adminService.deleteUserById(userId);
+	        // You can redirect to a different page or return a response as needed
+	        return "redirect:/getUsers"; // Redirect to a page showing the list of users, for example
 	    }
 	
 }

@@ -33,28 +33,29 @@ public class AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    
-    @Transactional
-    public void deleteUser(int userId) {
-    	 System.out.println("Deleting user with ID: " + userId);
-        userRepo.deleteById(userId);
-    }
-    
+
+//    public Optional<User> findByUserId(int userid) {
+//        return userRepo.findByUserId(userid);
+//    }
 
     
     public boolean authenticateAdmin(Admin admin, String password) {
         return admin != null && passwordEncoder.matches(password, admin.getPassword());
     }
     
+    @Transactional
+    public void deleteUserById(int userId) {
+        userRepo.deleteByUserid(userId);
+    }
     
 //    public Admin findAdminByEmail(String email) {
 //        return adminRepo.findByUsername(email).orElse(null);
 //    }
        
     
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
-    }
+//    public List<User> getAllUsers() {
+//        return userRepo.findAll();
+//    }
     
     public void registerAdmin(AdminDTO adminDTO) {
         Admin admin = new Admin();
