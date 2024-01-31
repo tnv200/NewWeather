@@ -103,10 +103,24 @@ public class Weather_Home_Controller {
 	               
 	              userService.addUser(userDTO);
 	              
-	              return "/getUsers"; // Redirect to a different page after successful user addition
+	              return "redirect:/getUsers"; // Redirect to a different page after successful user addition
 	      }
 
-	
+	      @GetMapping("/getUsers")
+	      public String getAllUsers(Model model) {
+	          List<User> users = userRepo.findAll();
+	          model.addAttribute("users", users);
+//	          System.out.println("Table");
+	          return "table-basic"; // Assuming "userTable" is the Thymeleaf template name
+	      }
+	  	
+	  	    @PostMapping("/deleteUser")
+	  	    public String deleteUser(@RequestParam("userId") int userId) {
+	  	        //System.out.println("agfakasbdfpkbws");
+	  	    	adminService.deleteUserById(userId);
+	  	        // You can redirect to a different page or return a response as needed
+	  	        return "redirect:/getUsers"; // Redirect to a page showing the list of users, for example
+	  	    }
 	
 	  
 	    @GetMapping("/pages-profile")
@@ -159,21 +173,6 @@ public class Weather_Home_Controller {
 	    	
 	    	return "/pages-profile";
 	    }
-	
-	@GetMapping("/getUsers")
-    public String getAllUsers(Model model) {
-        List<User> users = userRepo.findAll();
-        model.addAttribute("users", users);
-//        System.out.println("Table");
-        return "table-basic"; // Assuming "userTable" is the Thymeleaf template name
-    }
-	
-	    @PostMapping("/deleteUser")
-	    public String deleteUser(@RequestParam("userId") int userId) {
-	        //System.out.println("agfakasbdfpkbws");
-	    	adminService.deleteUserById(userId);
-	        // You can redirect to a different page or return a response as needed
-	        return "redirect:/getUsers"; // Redirect to a page showing the list of users, for example
-	    }
+
 	
 }

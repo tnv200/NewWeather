@@ -240,7 +240,7 @@
                             <div class="modal-content">
                                 <span class="close">&times;</span>
                            
-                                <form id="addUserForm" th:action="@{/u_add}" th:object="${userAdd}" th:method="post">
+                                <form th:action="@{/u_add}" th:object="${userAdd}" th:method="post">
                     
                                     <label for="addUsername">Username:</label>
                                     <input type="text" id="addUsername" name="username"  required><br><br>

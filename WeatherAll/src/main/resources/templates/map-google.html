@@ -199,16 +199,90 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-12">
+                <div class="col-lg-8 col-xlg-9 col-md-7">
                         <div class="card">
+                            <!-- Tab panes -->
                             <div class="card-body">
-                                <h4 class="card-title">Simple Basic Map</h4>
-                                <div id="gmaps-simple" class="gmaps"></div>
+								
+                                <form  class="form-horizontal form-material mx-2">
+									
+                                    <div class="form-group">
+                                        <label class="col-md-12">API Key</label>
+                                        <div class="col-md-12">
+											
+                                           <!-- <input type="text" class="form-control" placeholder="enter Name" value="" name="name"
+                                         th:value="${user1 != null and user1.size() > 0 ? user1[0]: ''}" >-->
+                                         
+                                         <input type="text" class="form-control" placeholder="enter Name" name="apiKey"
+                                         th:value="${apiKey}" >
+
+                                         
+                                        </div>
+  
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                    
+                                        <label for="example-email" class="col-md-12">API URL</label>
+                                        <!-- 
+                                        <div class="d-flex flex-column align-items-center text-center p-3 py-5" th:each="userDetail : ${user}">
+                                                   
+                                                     <span class="font-weight-bold"></span>
+                                                      <span class="text-black-50" th:text="${userDetail.id}"></span>
+                                                     <span class="font-weight-bold"></span>
+                                                      <span class="text-black-50" th:text="${userDetail.email}"></span>
+                                        </div> -->
+                                        
+                                        <!--
+                                        <input type="text" class="form-control" placeholder="enter email id" value="" name="email"
+                                         th:value="${user != null and user.size() > 0 ? user[0].email : ''}" readonly>-->
+                                         
+                                         <input type="text" class="form-control" placeholder="enter Name" name="apiUrl"
+                                         th:value="${apiUrl}" >
+                                        
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-md-12">Password</label>
+                                        <div class="col-md-12">
+                                           <!-- <input type="password" value="password"
+                                                class="form-control form-control-line">-->
+                                        </div>
+                                    </div>
+                                    <!--<div class="form-group">
+                                        <label class="col-md-12">Phone No</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="123 456 7890"
+                                                class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Message</label>
+                                        <div class="col-md-12">
+                                            <textarea rows="5" class="form-control form-control-line"></textarea>
+                                        </div>
+                                    </div>-->
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success">Update</button>
+                                        </div>
+                                    </div>
+                                    
+                                </form>
+                                
+
+   
                             </div>
                         </div>
                     </div>
+                    <!-- Column -->
                 </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+            </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -251,11 +325,8 @@
     <script src="/admin_dashboard/html/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="/admin_dashboard/html/js/custom.min.js"></script>
-    <script src = "/admin_dashboard/html/js/maps.js"></script>
-    <!-- google maps api -->
+
     
-    <script src="/admin_dashboard/assets/node_modules/gmaps/gmaps.min.js"></script>
-    <script src="/admin_dashboard/assets/node_modules/gmaps/jquery.gmaps.js"></script>
 </body>
 
 </html>
