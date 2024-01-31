@@ -42,7 +42,7 @@ window.onclick = function(event) {
 // Form submission for Add User
 document.getElementById("addUserForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  var userId = document.getElementById("addUserId").value;
+
   // Handle submission of user details (addUserForm)
   // ...
   addUserModal.style.display = "none";

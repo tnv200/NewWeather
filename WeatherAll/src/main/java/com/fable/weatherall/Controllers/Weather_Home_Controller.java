@@ -7,16 +7,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fable.weatherall.Admin_User_Entities.Admin;
 import com.fable.weatherall.Admin_User_Entities.User;
+import com.fable.weatherall.DTOs.UserDTO;
 import com.fable.weatherall.Repos.AdminRepo;
 import com.fable.weatherall.Repos.UserRepo;
 import com.fable.weatherall.Services.AdminService;
+import com.fable.weatherall.Services.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,6 +35,9 @@ public class Weather_Home_Controller {
 
 	@Autowired
     private AdminService adminService;
+	
+	@Autowired
+	private UserService userService;
 
 	
 	@GetMapping("/home")
@@ -74,12 +81,33 @@ public class Weather_Home_Controller {
         return "about";
     }
 	
+	
+//	@GetMapping("/addusr")
+//	public String displayForm() {
+//        return "addusr";
+//    }
+	
 //	  @GetMapping("/pages-profile")
 //	    public String adminprofile(HttpSession session,Model model) {
 //	    	System.out.println("Hi");
 //	    	return "/pages-profile";
 //	    }
 //	    
+	
+	      @PostMapping("/u_add")
+	      public String saveUser(@ModelAttribute("userAdd") UserDTO userDTO) {
+                  
+	               System.out.println("In the method");  	  
+	    	  
+	              //String id = 
+	               
+	              userService.addUser(userDTO);
+	              
+	              return "/getUsers"; // Redirect to a different page after successful user addition
+	      }
+
+	
+	
 	  
 	    @GetMapping("/pages-profile")
 	    public String adminprofile() {

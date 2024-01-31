@@ -34,5 +34,7 @@ public class UserController {
 		LoginResponse loginResponse = userService.loginUser(loginDTO);
 		return ResponseEntity.ok(loginResponse);
 	}
+	
+	
 
 }

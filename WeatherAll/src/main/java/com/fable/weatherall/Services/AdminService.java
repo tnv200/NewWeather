@@ -18,6 +18,7 @@ import com.fable.weatherall.DTOs.LoginDTO;
 import com.fable.weatherall.Repos.AdminRepo;
 import com.fable.weatherall.Repos.UserRepo;
 import com.fable.weatherall.Responses.LoginResponse;
+import com.fable.weatherall.Responses.UserAddResponse;
 
 import jakarta.transaction.Transactional;
 
@@ -88,6 +89,29 @@ public class AdminService {
             return new LoginResponse("Email not exists", false);
         }
 	}
+	
+//	public UserAddResponse useradd(User user) {
+//		User user1 = userRepo.findByEmail(user.getEmail());
+//        if (user1 != null) {
+//            String password = user.getPassword();
+//            String encodedPassword = user1.getPassword();
+//            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+//            if (isPwdRight) {
+//                Optional<User> usr = userRepo.findOneByEmailAndPassword(user.getEmail(), encodedPassword);
+//                if (usr.isPresent()){
+//                    return new UserAddResponse("UserAdd Success", true); // Fixed syntax
+//                } else {
+//                    return new UserAddResponse("UserAdd Failed", false);
+//                }
+//            } else {
+//                return new UserAddResponse("Password Not Match", false); // Fixed typo
+//            }
+//        } else {
+//            return new UserAddResponse("Email not exists", false);
+//        }
+//	}
+	
+	
 
 }
 

@@ -239,36 +239,51 @@
                             <!-- Modal content -->
                             <div class="modal-content">
                                 <span class="close">&times;</span>
-                                <form id="addUserForm">
-                                    <label for="addUserId">UserID:</label>
-                                    <input type="text" id="addUserId" name="addUserId" required><br><br>
+                           
+                                <form id="addUserForm" th:action="@{/u_add}" th:object="${userAdd}" th:method="post">
                     
                                     <label for="addUsername">Username:</label>
-                                    <input type="text" id="addUsername" name="addUsername" required><br><br>
+                                    <input type="text" id="addUsername" name="username"  required><br><br>
                     
                                     <label for="addEmail">Email:</label>
-                                    <input type="email" id="addEmail" name="addEmail" required><br><br>
+                                    <input type="email" id="addEmail" name="email"  required><br><br>
                     
                                     <label for="addPassword">Password:</label>
-                                    <input type="password" id="addPassword" name="addPassword" required><br><br>
+                                    <input type="password" id="addPassword" name="password"  required><br><br>
                     
-                                    <input type="submit" value="Submit">
+                                    
+                                    <button type="submit">Add User</button>
+                                    
                                 </form>
-                            </div>
+    
+    
+       <!-- <form th:action="@{/addUser}" th:object="${userAdd}" th:method="post">
+                                      <label for="userId">User ID:</label>
+                                      <input type="text" id="userId" name="userId" required>
+                                     <input type="email" id="email" name="email" placeholder="Email" required>
+                    
+                                      <button type="submit">Delete User</button>
+                                    </form> -->
+                                    
+
+                              </div>
+                              
                         </div>
                     
-                        <button class="btn btn-danger" id="deleteUserButton">Delete User</button>
-                    
+                        
+                    <button class="btn btn-danger" id="deleteUserButton">Delete User</button>
                         <!-- The Delete User Modal -->
                         <div id="deleteUserModal" class="modal">
                             <!-- Modal content -->
                             <div class="modal-content">
                                     <span class="close">&times;</span>
+                                    
                                     <form th:action="@{/deleteUser}" th:method="post">
                                       <label for="userId">User ID:</label>
                                       <input type="text" id="userId" name="userId" required>
                                       <button type="submit">Delete User</button>
                                     </form>
+                                    
                             </div>
 
                         </div>
@@ -393,10 +408,11 @@
 
 <script>
 
-document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+ document.getElementById('confirmDeleteButton').addEventListener('click', function () {
         var userId = document.getElementById('deleteUserId').value;
         window.location.href = /*[[ @{"/deleteUser/" + '{userId}'} ]]*/ "/deleteUser/" + userId;
-    });
+    }); 
+
     
 
 </script>

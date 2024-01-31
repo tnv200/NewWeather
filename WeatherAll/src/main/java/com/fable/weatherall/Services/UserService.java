@@ -14,6 +14,8 @@ import com.fable.weatherall.DTOs.UserDTO;
 import com.fable.weatherall.Repos.UserRepo;
 import com.fable.weatherall.Responses.LoginResponse;
 
+import jakarta.transaction.Transactional;
+
 @Service // Added annotation to indicate that this is a service
 public class UserService {
 
@@ -23,14 +25,14 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    
+    @Transactional
     public String addUser(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setConfirmpassword(passwordEncoder.encode(userDTO.getConfirmpassword()));
-        user.setUserType(userDTO.getUserType());
+//        user.setConfirmpassword(passwordEncoder.encode(userDTO.getConfirmpassword()));
+//        user.setUserType(userDTO.getUserType());
 
         userRepo.save(user);
         

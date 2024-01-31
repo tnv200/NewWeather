@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fable.weatherall.Admin_User_Entities.Admin;
 import com.fable.weatherall.DTOs.AdminDTO;
+import com.fable.weatherall.DTOs.LoginDTO;
+import com.fable.weatherall.DTOs.UserDTO;
 import com.fable.weatherall.Responses.LoginResponse;
+import com.fable.weatherall.Responses.UserAddResponse;
 import com.fable.weatherall.Services.AdminService;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +32,7 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin
-public class AdminController {
+public class AdminController extends UserController {
 	
 	@Autowired
     private AdminService adminService;
@@ -81,6 +84,10 @@ public class AdminController {
 //    	return "admin_dashboard";
 //    }
     
-  
+//    @PostMapping(path = "/addUser")
+//	public ResponseEntity<?> loginUser(@RequestBody UserDTO userDTO) {
+//    	UserAddResponse useraddResponse = saveUser.loginUser(userDTO);
+//		return ResponseEntity.ok(useraddResponse);
+//	}
 
 }
